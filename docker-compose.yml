@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  library.api:
+    image: ${DOCKER_REGISTRY-}libraryapi
+    build:
+      context: .
+      dockerfile: Library.Api/Dockerfile
+    ports:
+      - "5001:80"
+    depends_on:
+      - mssql
+
+  mssql:
+    container_name: mssql
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - "ACCEPT_EULA=Y"
+      - "SA_PASSWORD=passw0rd!"
+    ports:
+      - "1434:1433"
